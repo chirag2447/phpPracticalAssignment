@@ -40,11 +40,19 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Check if user is logged in
     session_start();
-    $isLoggedIn = isset($_SESSION['username']);
+    $isLoggedIn = isset($_SESSION['loggedin']);
+
+    if(isset($_POST['logout'])){
+        session_destroy();
+        header("Location: login.php");
+        exit();
+    }
 
     // Display the navbar
     ?>
-    <html>
+    <?php
+        if(isset($_SESSION['loggedin'])){?>
+            <html>
     <head>
         <title>Products</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -64,17 +72,20 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <a class="nav-link" href="#">Products</a>
                 </li>
                 <?php if ($isLoggedIn) { ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
+                     <li class="nav-item">
+                        <form method="post" action="">
+                            <button type="submit" name="logout" class="nav-link btn btn-link">Logout</button>
+                        </form>
                     </li>
                 <?php } else { ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Login</a>
+                        <a class="nav-link" href="login.php">Login</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Register</a>
                     </li>
                 <?php } ?>
+              
             </ul>
         </div>
     </nav>
@@ -177,3 +188,9 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 </html>
+       <?php }else{
+           header("Location: login.php");
+        }
+    
+    ?>
+   

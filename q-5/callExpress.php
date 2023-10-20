@@ -1,5 +1,5 @@
 <?php // Set the API endpoint URL
-$url = 'http://localhost:3000/api/data';
+$url = 'http://localhost:3000/user/';
 
 // Set the request options
 $options = array(
